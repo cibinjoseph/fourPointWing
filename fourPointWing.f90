@@ -41,18 +41,6 @@ program fourPointWing
     enddo
   enddo
 
-  ! do j=1,ns
-  !   do i=1,nc+1
-  !     PC(1,i,j) = PC(1,i,j)+abs(PC(2,i,ns+1)-PC(2,i,j))*tanSweep
-  !   enddo
-  ! enddo
-
-  ! do j=ns+1,2*ns+1
-  !   do i=1,nc+1
-  !     PC(1,i,j) = PC(1,i,j)+abs(PC(2,i,ns+1)-PC(2,i,j))*tanSweep
-  !   enddo
-  ! enddo
-
   ! Write to file in PLOT3D format
   !open(unit=11,file='rotor01.xyz')
   !write(11,*) nc+1,ns+1,1
