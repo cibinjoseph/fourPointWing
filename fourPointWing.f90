@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 1
-  integer, parameter :: ns = 3
+  integer, parameter :: nc = 4
+  integer, parameter :: ns = 13
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
 
   integer :: i,ic,is
@@ -23,8 +23,8 @@ program fourPointWing
   ! Input corners of wing
   P1=(/0.0_dp,0.0_dp,0.0_dp/)
   P2=(/1.0_dp,0.0_dp,0.0_dp/)
-  P3=(/1.2_dp,6.0_dp,0.0_dp/)
-  P4=(/0.5_dp,6.0_dp,0.0_dp/)
+  P3=(/3.2_dp,6.0_dp,0.0_dp/)
+  P4=(/2.5_dp,6.0_dp,0.0_dp/)
 
   ! Construct LE and TE of right wing
   do i=1,3
