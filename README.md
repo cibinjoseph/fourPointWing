@@ -1,2 +1,2 @@
 # fourPointWing
-Mesh a wing from its four corner points
+Given four vertices of a wing, it generates a mesh for a flatplate wing
