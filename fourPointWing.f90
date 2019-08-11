@@ -48,7 +48,7 @@ program fourPointWing
       PC(3,:,is) = PC(3,:,(2*ns+1)-is+1)
     enddo
 
-  ! Write to file in PLOT3D format
+  ! Write right wing to file in PLOT3D format
   !open(unit=11,file='rotor01.xyz')
   !write(11,*) nc+1,ns+1,1
   !write(11,'(3E15.7)') &
@@ -57,7 +57,7 @@ program fourPointWing
   !  ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
   !close(11)
 
-  ! Write to file in PLOT3D format
+  ! Write both wings to file in PLOT3D format
   open(unit=11,file='rotor01.xyz')
   write(11,*) nc+1,2*ns+1,1
   write(11,'(3E15.7)') &
