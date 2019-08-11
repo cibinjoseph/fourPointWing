@@ -22,22 +22,27 @@ program fourPointWing
 
   ! Input corners of wing
   P1=(/0.0_dp,0.0_dp,0.0_dp/)
-  P2=(/0.0_dp,0.0_dp,0.0_dp/)
-  P3=(/0.0_dp,0.0_dp,0.0_dp/)
-  P4=(/0.0_dp,0.0_dp,0.0_dp/)
+  P2=(/1.0_dp,0.0_dp,0.0_dp/)
+  P3=(/1.2_dp,6.0_dp,0.0_dp/)
+  P4=(/0.5_dp,6.0_dp,0.0_dp/)
 
-  ! Construct outer mesh of right wing
+  ! Construct LE and TE of right wing
   do i=1,3
     PC(i,:,ns+1)   = linspace(P1(i),P2(i),nc+1)
-    PC(i,nc+1,:)   = linspace(P2(i),P3(i),ns+1)
     PC(i,:,2*ns+1) = linspace(P4(i),P3(i),nc+1)
-    PC(i,1,:)      = linspace(P1(i),P4(i),ns+1)
   enddo
 
   ! Construct inner mesh right wing
   do i=1,3
     do is=ns+1,2*ns+1
       PC(i,:,is) = linspace(PC(i,1,j),PC(i,nc+1,j),nc+1)
+    enddo
+  enddo
+
+  ! Mirror right wing to left wing
+  do i=1,3
+    do is=1,ns
+      PC(i,:,is) = PC(i,:,(2*ns+1)-is+1)
     enddo
   enddo
 
