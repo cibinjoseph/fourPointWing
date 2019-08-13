@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 1
-  integer, parameter :: ns = 23
+  integer, parameter :: nc = 10  ! per semispan
+  integer, parameter :: ns = 16  ! per semispan
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
 
   integer :: i,ic,is
@@ -56,7 +56,7 @@ program fourPointWing
   !close(11)
 
   ! Write both wings to file in PLOT3D format
-  open(unit=11,file='rotor01.xyz')
+  open(unit=11,file='output.xyz')
   write(11,*) nc+1,2*ns+1,1
   write(11,'(3E15.7)') &
     ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
