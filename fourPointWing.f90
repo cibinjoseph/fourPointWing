@@ -21,11 +21,17 @@ program fourPointWing
   ! X V 
 
   ! Input corners of wing
-  ! Rectangular wing
+  ! Rectangular swept wing
   P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
   P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
-  P3=(/0.3048_dp,0.4313_dp,0.0000_dp/)
-  P4=(/0.0000_dp,0.4313_dp,0.0000_dp/)
+  P3=(/0.3048_dp+0.4313_dp,0.4313_dp,0.0000_dp/)
+  P4=(/0.0000_dp+0.4313_dp,0.4313_dp,0.0000_dp/)
+
+  ! Rectangular wing
+  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  !P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
+  !P3=(/0.3048_dp,0.4313_dp,0.0000_dp/)
+  !P4=(/0.0000_dp,0.4313_dp,0.0000_dp/)
 
   ! Warren-12
   !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
