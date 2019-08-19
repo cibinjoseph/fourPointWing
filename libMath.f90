@@ -8,6 +8,19 @@ module libMath
 contains
 
   ! -------------------------------------------------
+  !                cross3
+  ! -------------------------------------------------
+  function cross3(avec,bvec)
+    real(dp), intent(in), dimension(3) :: avec,bvec
+    real(dp), dimension(3) :: cross3
+
+    cross3(1) = avec(2)*bvec(3)-avec(3)*bvec(2)
+    cross3(2) = avec(3)*bvec(1)-avec(1)*bvec(3)
+    cross3(3) = avec(1)*bvec(2)-avec(2)*bvec(1)
+
+  end function cross3
+
+  ! -------------------------------------------------
   !                linspace
   ! -------------------------------------------------
   function linspace(xstart,xend,nx) result(xout)

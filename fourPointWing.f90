@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 10  ! per semispan
-  integer, parameter :: ns = 16  ! per semispan
+  integer, parameter :: nc = 15  ! per semispan
+  integer, parameter :: ns = 26  ! per semispan
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
 
   integer :: i,ic,is
@@ -21,17 +21,26 @@ program fourPointWing
   ! X V 
 
   ! Input corners of wing
+  ! Rectangular wing
+  P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
+  P3=(/0.3048_dp,0.4313_dp,0.0000_dp/)
+  P4=(/0.0000_dp,0.4313_dp,0.0000_dp/)
+
   ! Warren-12
-  P1=(/00.00000_dp,00.00000_dp,00.000_dp/)
-  P2=(/01.50000_dp,00.00000_dp,00.000_dp/)
-  P3=(/02.41421_dp,01.41421_dp,00.000_dp/)
-  P4=(/01.91421_dp,01.41421_dp,00.000_dp/)
+  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  !P2=(/0.4572_dp,0.0000_dp,0.0000_dp/)
+  !P3=(/0.7346_dp,0.4313_dp,0.0000_dp/)
+  !P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
 
   ! TR-1208
   !P1=(/00.000_dp,00.000_dp,00.000_dp/)
   !P2=(/21.941_dp,00.000_dp,00.000_dp/)
   !P3=(/76.520_dp,63.630_dp,00.000_dp/)
   !P4=(/66.647_dp,63.630_dp,00.000_dp/)
+
+  ! Print out area
+  print*,'Full span Area = ',norm2(cross3(P3-P1,P4-P2))
 
   ! Construct LE and TE of right wing
   do i=1,3
