@@ -1,12 +1,13 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 15  ! per semispan
-  integer, parameter :: ns = 26  ! per semispan
-  real(dp), dimension(3,nc+1,2*ns+1) :: PC
+  integer, parameter :: nc = 1  ! No. of chordwise panels per semispan
+  integer, parameter :: ns = 1  ! No. of spanwise panels per semispan
 
+  real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
   real(dp), dimension(3) :: P1,P2,P3,P4
+  real(dp) :: sweep_rad, semispan
 
   ! Schematic of wing
   !     
@@ -21,11 +22,14 @@ program fourPointWing
   ! X V 
 
   ! Input corners of wing
+  sweep_rad=00._dp*pi/180._dp
+  semispan=0.3048_dp
+
   ! Rectangular swept wing
   P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
   P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
-  P3=(/0.3048_dp+0.4313_dp,0.4313_dp,0.0000_dp/)
-  P4=(/0.0000_dp+0.4313_dp,0.4313_dp,0.0000_dp/)
+  P3=(/0.3048_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+  P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
 
   ! Rectangular wing
   !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
@@ -69,20 +73,20 @@ program fourPointWing
     enddo
 
   ! Write right wing to file in PLOT3D format
-  !open(unit=11,file='rotor01.xyz')
-  !write(11,*) nc+1,ns+1,1
-  !write(11,'(3E15.7)') &
-  !  ((PC(1,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-  !  ((PC(2,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-  !  ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
-  !close(11)
+  open(unit=11,file='output.xyz')
+  write(11,*) nc+1,ns+1,1
+  write(11,'(3E15.7)') &
+    ((PC(1,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
+    ((PC(2,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
+    ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
+  close(11)
 
   ! Write both wings to file in PLOT3D format
-  open(unit=11,file='output.xyz')
-  write(11,*) nc+1,2*ns+1,1
-  write(11,'(3E15.7)') &
-    ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-    ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-    ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
-  close(11)
+  !open(unit=11,file='output.xyz')
+  !write(11,*) nc+1,2*ns+1,1
+  !write(11,'(3E15.7)') &
+  !  ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
+  !  ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
+  !  ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
+  !close(11)
 end program fourPointWing
