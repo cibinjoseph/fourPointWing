@@ -7,7 +7,7 @@ program fourPointWing
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
   real(dp), dimension(3) :: P1,P2,P3,P4
-  real(dp) :: sweep_rad, semispan
+  real(dp) :: sweep_rad, semispan, rootChord, tipChord
 
   ! Schematic of wing
   !     
@@ -22,14 +22,16 @@ program fourPointWing
   ! X V 
 
   ! Input corners of wing
-  sweep_rad=00._dp*pi/180._dp
-  semispan=0.3048_dp
+  sweep_rad = 00._dp*pi/180._dp
+  semispan = 5.0_dp
+  rootChord = 0.3048_dp
+  tipChord = 0.3048_dp
 
   ! Rectangular swept wing
-  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
-  !P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
-  !P3=(/0.3048_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
-  !P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+  P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  P2=(/rootChord,0.0000_dp,0.0000_dp/)
+  P3=(/tipChord+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+  P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
 
   ! Rectangular wing
   !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
@@ -44,10 +46,10 @@ program fourPointWing
   !P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
 
   ! TR-1208
-  P1=(/00.000_dp,00.000_dp,00.000_dp/)
-  P2=(/21.941_dp,00.000_dp,00.000_dp/)
-  P3=(/76.520_dp,63.630_dp,00.000_dp/)
-  P4=(/66.647_dp,63.630_dp,00.000_dp/)
+  !P1=(/00.000_dp,00.000_dp,00.000_dp/)
+  !P2=(/21.941_dp,00.000_dp,00.000_dp/)
+  !P3=(/76.520_dp,63.630_dp,00.000_dp/)
+  !P4=(/66.647_dp,63.630_dp,00.000_dp/)
 
   ! Print out area
   print*,'Full span Area = ',norm2(cross3(P3-P1,P4-P2))
@@ -89,4 +91,5 @@ program fourPointWing
     ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
     ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
   close(11)
+
 end program fourPointWing
