@@ -26,10 +26,10 @@ program fourPointWing
   semispan=0.3048_dp
 
   ! Rectangular swept wing
-  P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
-  P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
-  P3=(/0.3048_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
-  P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  !P2=(/0.3048_dp,0.0000_dp,0.0000_dp/)
+  !P3=(/0.3048_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+  !P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
 
   ! Rectangular wing
   !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
@@ -38,10 +38,10 @@ program fourPointWing
   !P4=(/0.0000_dp,0.4313_dp,0.0000_dp/)
 
   ! Warren-12
-  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
-  !P2=(/0.4572_dp,0.0000_dp,0.0000_dp/)
-  !P3=(/0.7346_dp,0.4313_dp,0.0000_dp/)
-  !P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
+  P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  P2=(/0.4572_dp,0.0000_dp,0.0000_dp/)
+  P3=(/0.7346_dp,0.4313_dp,0.0000_dp/)
+  P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
 
   ! TR-1208
   !P1=(/00.000_dp,00.000_dp,00.000_dp/)
@@ -68,25 +68,25 @@ program fourPointWing
   ! Mirror right wing to left wing
     do is=1,ns
       PC(1,:,is) = PC(1,:,(2*ns+1)-is+1)
-      PC(2,:,is) = PC(2,:,(2*ns+1)-is+1)*-1_dp
+      PC(2,:,is) = PC(2,:,(2*ns+1)-is+1)*(-1_dp)
       PC(3,:,is) = PC(3,:,(2*ns+1)-is+1)
     enddo
 
-  ! Write right wing to file in PLOT3D format
-  open(unit=11,file='output.xyz')
-  write(11,*) nc+1,ns+1,1
-  write(11,'(3E15.7)') &
-    ((PC(1,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-    ((PC(2,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-    ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
-  close(11)
-
-  ! Write both wings to file in PLOT3D format
+  ! Uncomment this block to write out only semispan
   !open(unit=11,file='output.xyz')
-  !write(11,*) nc+1,2*ns+1,1
+  !write(11,*) nc+1,ns+1,1
   !write(11,'(3E15.7)') &
-  !  ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-  !  ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-  !  ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
+  !  ((PC(1,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
+  !  ((PC(2,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
+  !  ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
   !close(11)
+
+  ! Uncomment this block to write out full span wing
+  open(unit=11,file='output.xyz')
+  write(11,*) nc+1,2*ns+1,1
+  write(11,'(3E15.7)') &
+    ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
+    ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
+    ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
+  close(11)
 end program fourPointWing
