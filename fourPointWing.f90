@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 1  ! No. of chordwise panels per semispan
-  integer, parameter :: ns = 1  ! No. of spanwise panels per semispan
+  integer, parameter :: nc = 5  ! No. of chordwise panels per semispan
+  integer, parameter :: ns = 15  ! No. of spanwise panels per semispan
 
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
@@ -38,16 +38,16 @@ program fourPointWing
   !P4=(/0.0000_dp,0.4313_dp,0.0000_dp/)
 
   ! Warren-12
-  P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
-  P2=(/0.4572_dp,0.0000_dp,0.0000_dp/)
-  P3=(/0.7346_dp,0.4313_dp,0.0000_dp/)
-  P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
+  !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
+  !P2=(/0.4572_dp,0.0000_dp,0.0000_dp/)
+  !P3=(/0.7346_dp,0.4313_dp,0.0000_dp/)
+  !P4=(/0.5822_dp,0.4313_dp,0.0000_dp/)
 
   ! TR-1208
-  !P1=(/00.000_dp,00.000_dp,00.000_dp/)
-  !P2=(/21.941_dp,00.000_dp,00.000_dp/)
-  !P3=(/76.520_dp,63.630_dp,00.000_dp/)
-  !P4=(/66.647_dp,63.630_dp,00.000_dp/)
+  P1=(/00.000_dp,00.000_dp,00.000_dp/)
+  P2=(/21.941_dp,00.000_dp,00.000_dp/)
+  P3=(/76.520_dp,63.630_dp,00.000_dp/)
+  P4=(/66.647_dp,63.630_dp,00.000_dp/)
 
   ! Print out area
   print*,'Full span Area = ',norm2(cross3(P3-P1,P4-P2))
