@@ -84,12 +84,16 @@ program fourPointWing
   !close(11)
 
   ! Uncomment this block to write out full span wing
+  PC(1,:,:) = 1._dp
+  PC(2,:,:) = 2._dp
+  PC(3,:,:) = 3._dp
   open(unit=11,file='output.xyz')
   write(11,*) nc+1,2*ns+1,1
-  write(11,'(3E15.7)') &
+  write(11,*) &
     ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
     ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
     ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
   close(11)
 
+  !100 format (3E15.7)
 end program fourPointWing
