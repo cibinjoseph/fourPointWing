@@ -1,4 +1,4 @@
-FC=ifort
+FC=gfortran
 
 all:
 	make run
