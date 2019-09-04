@@ -4,6 +4,7 @@ program fourPointWing
   integer, parameter :: nc = 5  ! No. of chordwise panels per semispan
   integer, parameter :: ns = 15  ! No. of spanwise panels per semispan
 
+  integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
   real(dp), dimension(3) :: P1,P2,P3,P4
@@ -74,26 +75,19 @@ program fourPointWing
       PC(3,:,is) = PC(3,:,(2*ns+1)-is+1)
     enddo
 
-  ! Uncomment this block to write out only semispan
-  !open(unit=11,file='output.xyz')
-  !write(11,*) nc+1,ns+1,1
-  !write(11,'(3E15.7)') &
-  !  ((PC(1,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-  !  ((PC(2,ic,is),ic=1,nc+1),is=ns+1,2*ns+1), &
-  !  ((PC(3,ic,is),ic=1,nc+1),is=ns+1,2*ns+1)
-  !close(11)
+  ! No. of grid points to write to file
+  nx = nc+1
+  !nyStart = ns+1  ! Uncomment to write out only semispan
+  nyStart = 1     ! Uncomment to write out full span wing
+  ny = 2*ns+1
+  nz = 1
 
-  ! Uncomment this block to write out full span wing
-  PC(1,:,:) = 1._dp
-  PC(2,:,:) = 2._dp
-  PC(3,:,:) = 3._dp
   open(unit=11,file='output.xyz')
-  write(11,*) nc+1,2*ns+1,1
+  write(11,*) nx, ny-nyStart+1, nz
   write(11,*) &
-    ((PC(1,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-    ((PC(2,ic,is),ic=1,nc+1),is=1,2*ns+1), &
-    ((PC(3,ic,is),ic=1,nc+1),is=1,2*ns+1)
+    ((PC(1,ic,is),ic=1,nx),is=nyStart,ny), &
+    ((PC(2,ic,is),ic=1,nx),is=nyStart,ny), &
+    ((PC(3,ic,is),ic=1,nx),is=nyStart,ny)
   close(11)
 
-  !100 format (3E15.7)
 end program fourPointWing
