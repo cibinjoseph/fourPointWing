@@ -61,7 +61,7 @@ program fourPointWing
     PC(i,1,ns+1:2*ns+1)      = linspace(P1(i),P4(i),ns+1)
   enddo
 
-  ! Construct inner mesh right wing
+  ! Construct inner mesh of right wing
   do i=1,3
     do is=ns+1,2*ns+1
       PC(i,:,is) = linspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
@@ -77,11 +77,12 @@ program fourPointWing
 
   ! No. of grid points to write to file
   nx = nc+1
-  !nyStart = ns+1  ! Uncomment to write out only semispan
-  nyStart = 1     ! Uncomment to write out full span wing
+  nyStart = ns+1  ! Uncomment to write out only semispan
+  !nyStart = 1     ! Uncomment to write out full span wing
   ny = 2*ns+1
   nz = 1
 
+  ! Write to output file
   open(unit=11,file='output.xyz')
   write(11,*) nx, ny-nyStart+1, nz
   write(11,*) &
