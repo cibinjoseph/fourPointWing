@@ -1,7 +1,7 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 5  ! No. of chordwise panels per semispan
+  integer, parameter :: nc = 15  ! No. of chordwise panels per semispan
   integer, parameter :: ns = 15  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
@@ -9,6 +9,10 @@ program fourPointWing
   integer :: i,ic,is
   real(dp), dimension(3) :: P1,P2,P3,P4
   real(dp) :: sweep_rad, semispan, rootChord, tipChord
+  character(len=4) :: airfoil
+  real(dp) :: camberM  ! Max camber
+  real(dp) :: camberP  ! Position of max camber
+  real(dp) :: localChord
 
   ! Schematic of wing
   !     
@@ -24,9 +28,18 @@ program fourPointWing
 
   ! Input corners of wing
   sweep_rad = 00._dp*pi/180._dp
-  semispan = 5.0_dp
-  rootChord = 0.3048_dp
-  tipChord = 0.3048_dp
+  semispan = 6.0_dp
+  rootChord = 1.0_dp
+  tipChord = 1.0_dp
+
+  ! Input four digit airfoil
+  ! NACA MPXX
+  airfoil = "6409"
+
+  read(airfoil(1:1),*) camberM
+  camberM = camberM/100._dp
+  read(airfoil(2:2),*) camberP
+  camberP = camberP/10._dp
 
   ! Rectangular swept wing
   P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
@@ -67,13 +80,27 @@ program fourPointWing
       PC(i,:,is) = linspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
     enddo
   enddo
+  if (camberM > 0._dp) then
+    do is=ns+1,2*ns+1
+      localChord = PC(1,nc+1,is)-PC(1,1,is)
+      do ic=1,nc+1
+        if (PC(1,ic,is)/localChord .le. camberP) then
+          PC(3,ic,is) = localChord*camberM/camberP**2._dp &
+            *(2._dp*camberP*PC(1,ic,is)-PC(1,ic,is)**2._dp)
+        else 
+          PC(3,ic,is) = localChord*camberM/(1._dp-camberP)**2._dp &
+            *(1._dp-2._dp*camberP+2._dp*camberP*PC(1,ic,is)-PC(1,ic,is)**2._dp)
+        endif
+      enddo
+    enddo
+  endif
 
   ! Mirror right wing to left wing
-    do is=1,ns
-      PC(1,:,is) = PC(1,:,(2*ns+1)-is+1)
-      PC(2,:,is) = PC(2,:,(2*ns+1)-is+1)*(-1_dp)
-      PC(3,:,is) = PC(3,:,(2*ns+1)-is+1)
-    enddo
+  do is=1,ns
+    PC(1,:,is) = PC(1,:,(2*ns+1)-is+1)
+    PC(2,:,is) = PC(2,:,(2*ns+1)-is+1)*(-1_dp)
+    PC(3,:,is) = PC(3,:,(2*ns+1)-is+1)
+  enddo
 
   ! No. of grid points to write to file
   nx = nc+1
