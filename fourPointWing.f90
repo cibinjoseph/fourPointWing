@@ -13,6 +13,7 @@ program fourPointWing
   real(dp) :: camberM  ! Max camber
   real(dp) :: camberP  ! Position of max camber
   real(dp) :: localChord
+  integer :: spacingMethod
 
   ! Schematic of wing
   !     
@@ -25,6 +26,10 @@ program fourPointWing
   !   |  P2--------P3
   !   |
   ! X V 
+
+  ! Spacing method
+  ! [1] linspace  [2] cosspace
+  spacingMethod = 1
 
   ! Input corners of wing
   sweep_rad = 00._dp*pi/180._dp
@@ -68,18 +73,37 @@ program fourPointWing
   ! Print out area
   print*,'Full span Area = ',norm2(cross3(P3-P1,P4-P2))
 
-  ! Construct LE and TE of right wing
-  do i=1,3
-    PC(i,nc+1,ns+1:2*ns+1)   = linspace(P2(i),P3(i),ns+1)
-    PC(i,1,ns+1:2*ns+1)      = linspace(P1(i),P4(i),ns+1)
-  enddo
-
-  ! Construct inner mesh of right wing
-  do i=1,3
-    do is=ns+1,2*ns+1
-      PC(i,:,is) = linspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
+  select case (spacingMethod)
+  case (1)
+    ! Construct LE and TE of right wing
+    do i=1,3
+      PC(i,nc+1,ns+1:2*ns+1)   = linspace(P2(i),P3(i),ns+1)
+      PC(i,1,ns+1:2*ns+1)      = linspace(P1(i),P4(i),ns+1)
     enddo
-  enddo
+
+    ! Construct inner mesh of right wing
+    do i=1,3
+      do is=ns+1,2*ns+1
+        PC(i,:,is) = linspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
+      enddo
+    enddo
+
+  case (2)
+    ! Construct LE and TE of right wing
+    do i=1,3
+      PC(i,nc+1,ns+1:2*ns+1)   = cosspace(P2(i),P3(i),ns+1)
+      PC(i,1,ns+1:2*ns+1)      = cosspace(P1(i),P4(i),ns+1)
+    enddo
+
+    ! Construct inner mesh of right wing
+    do i=1,3
+      do is=ns+1,2*ns+1
+        PC(i,:,is) = cosspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
+      enddo
+    enddo
+
+  end select
+
   if (camberM > 0._dp) then
     do is=ns+1,2*ns+1
       localChord = PC(1,nc+1,is)-PC(1,1,is)
