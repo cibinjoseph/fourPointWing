@@ -2,7 +2,7 @@ program fourPointWing
   use libMath
   implicit none
   integer, parameter :: nc = 12  ! No. of chordwise panels per semispan
-  integer, parameter :: ns = 30  ! No. of spanwise panels per semispan
+  integer, parameter :: ns = 36  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
@@ -28,7 +28,7 @@ program fourPointWing
 
   ! Input corners of wing
   sweep_rad = 00._dp*pi/180._dp
-  semispan = 6.0_dp
+  semispan = 4.0_dp
   rootChord = 1.0_dp
   tipChord = 1.0_dp
 
@@ -70,14 +70,14 @@ program fourPointWing
 
   ! Construct LE and TE of right wing
   do i=1,3
-    PC(i,nc+1,ns+1:2*ns+1)   = cosspace(P2(i),P3(i),ns+1)
-    PC(i,1,ns+1:2*ns+1)      = cosspace(P1(i),P4(i),ns+1)
+    PC(i,nc+1,ns+1:2*ns+1)   = linspace(P2(i),P3(i),ns+1)
+    PC(i,1,ns+1:2*ns+1)      = linspace(P1(i),P4(i),ns+1)
   enddo
 
   ! Construct inner mesh of right wing
   do i=1,3
     do is=ns+1,2*ns+1
-      PC(i,:,is) = cosspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
+      PC(i,:,is) = linspace(PC(i,1,is),PC(i,nc+1,is),nc+1)
     enddo
   enddo
   if (camberM > 0._dp) then
