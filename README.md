@@ -1,10 +1,10 @@
 # fourPointWing
-Program to generate an uncambered wing lattice given four corner points.    
-Twist, sweep and taper of the wing may be incorporated in the vertices provided as input.   
+Program to quickly generate an NACA XXXX wing lattice given four corner points.    
+Twist, sweep and taper of the wing may be incorporated in the vertices provided as input or given ass inputs.   
 
 # Usage
-The four vertices of the semispan are to be input in-code.  
-The code may be compiled and executed using the Makefile provided using the command  
+The four vertices of the semispan may be input in-code if necessary.   
+The code may be compiled and executed, using the Makefile provided, with the command  
 `make`  
 The output is in PLOT3D, ASCII, non-multigrid, double precision format.  
 
