@@ -1,7 +1,7 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 12  ! No. of chordwise panels per semispan
+  integer, parameter :: nc = 20  ! No. of chordwise panels per semispan
   integer, parameter :: ns = 36  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
@@ -27,19 +27,26 @@ program fourPointWing
   !   |
   ! X V 
 
+  ! ==== INPUTS ====
   ! Spacing method
-  ! [1] linspace  [2] cosspace
-  spacingMethod = 1
+  ! [1]linspace  [2]cosspace
+  spacingMethod = 2
 
-  ! Input corners of wing
+  ! Input geometry of wing
   sweep_rad = 00._dp*pi/180._dp
-  semispan = 4.0_dp
+  semispan  = 12.0_dp
   rootChord = 1.0_dp
-  tipChord = 1.0_dp
+  tipChord  = 1.0_dp
 
   ! Input four digit airfoil
   ! NACA MPXX
-  airfoil = "6409"
+  airfoil = "4415"
+
+  ! Output selection
+  ! [0]semispan [1]full-span
+  isFullspan = 1
+
+  ! ==== ===== ====
 
   read(airfoil(1:1),*) camberM
   camberM = camberM/100._dp
@@ -128,8 +135,11 @@ program fourPointWing
 
   ! No. of grid points to write to file
   nx = nc+1
-  nyStart = ns+1  ! Uncomment to write out only semispan
-  !nyStart = 1     ! Uncomment to write out full span wing
+  if (isFullspan) then
+    nyStart = 1
+  else
+    nyStart = ns+1
+  endif
   ny = 2*ns+1
   nz = 1
 
