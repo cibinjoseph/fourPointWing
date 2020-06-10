@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 20  ! No. of chordwise panels per semispan
-  integer, parameter :: ns = 36  ! No. of spanwise panels per semispan
+  integer, parameter :: nc = 12  ! No. of chordwise panels per semispan
+  integer, parameter :: ns = 28  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
@@ -13,7 +13,7 @@ program fourPointWing
   real(dp) :: camberM  ! Max camber
   real(dp) :: camberP  ! Position of max camber
   real(dp) :: localChord
-  integer :: spacingMethod
+  integer :: spacingMethod, isFullspan
 
   ! Schematic of wing
   !     
@@ -44,7 +44,7 @@ program fourPointWing
 
   ! Output selection
   ! [0]semispan [1]full-span
-  isFullspan = 1
+  isFullspan = 0
 
   ! ==== ===== ====
 
@@ -135,7 +135,7 @@ program fourPointWing
 
   ! No. of grid points to write to file
   nx = nc+1
-  if (isFullspan) then
+  if (isFullspan == 1) then
     nyStart = 1
   else
     nyStart = ns+1
