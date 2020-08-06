@@ -1,13 +1,14 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 11  ! No. of chordwise panels per semispan
-  integer, parameter :: ns = 15  ! No. of spanwise panels per semispan
+  integer, parameter :: nc = 12  ! No. of chordwise panels per semispan
+  integer, parameter :: ns = 20  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
-  real(dp), dimension(3) :: P1,P2,P3,P4
+  real(dp) :: xShift, yShift, zShift
+  real(dp), dimension(3) :: P1,P2,P3,P4,Pshift
   real(dp) :: sweep_rad, semispan, rootChord, tipChord
   character(len=4) :: airfoil
   real(dp) :: camberM  ! Max camber
@@ -18,7 +19,7 @@ program fourPointWing
   ! ==== INPUTS ====
   ! Input method
   ! [1]Parameters [2]Coordinates
-  inputMethod = 2
+  inputMethod = 1
 
   ! Spacing method
   ! [1]linspace  [2]cosspace
@@ -26,17 +27,22 @@ program fourPointWing
 
   ! Input geometry of wing
   sweep_rad = 00._dp*pi/180._dp
-  semispan  = 12.0_dp
-  rootChord = 1.0_dp
-  tipChord  = 1.0_dp
+  semispan  = 0.25_dp
+  rootChord = 0.04_dp
+  tipChord  = 0.04_dp
+
+  ! Shift in coordinates
+  xShift = 0._dp
+  yShift = 0.025_dp
+  zShift = 0._dp
 
   ! Input four digit airfoil
   ! NACA MPXX
-  airfoil = "0015"
+  airfoil = "6904"
 
   ! Output selection
   ! [0]semispan [1]full-span
-  isFullspan = 1
+  isFullspan = 0
 
   ! ==== ===== ====
 
@@ -51,6 +57,12 @@ program fourPointWing
     P2=(/rootChord,0.0000_dp,0.0000_dp/)
     P3=(/tipChord+semispan*tan(sweep_rad),semispan,0.0000_dp/)
     P4=(/0.0000_dp+semispan*tan(sweep_rad),semispan,0.0000_dp/)
+
+    Pshift = (/xShift, yShift, zShift/)
+    P1 = P1 + Pshift
+    P2 = P2 + Pshift
+    P3 = P3 + Pshift
+    P4 = P4 + Pshift
   else
 
     ! Schematic of wing
