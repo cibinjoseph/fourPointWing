@@ -1,13 +1,13 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 12  ! No. of chordwise panels per semispan
+  integer, parameter :: nc = 15  ! No. of chordwise panels per semispan
   integer, parameter :: ns = 20  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
   integer :: i,ic,is
-  real(dp) :: xShift, yShift, zShift
+  real(dp) :: xShift, yShift, zShift, xc
   real(dp), dimension(3) :: P1,P2,P3,P4,Pshift
   real(dp) :: sweep_rad, semispan, rootChord, tipChord
   character(len=4) :: airfoil
@@ -143,12 +143,15 @@ program fourPointWing
     do is=ns+1,2*ns+1
       localChord = PC(1,nc+1,is)-PC(1,1,is)
       do ic=1,nc+1
-        if (PC(1,ic,is)/localChord .le. camberP) then
+        ! xc has to be used since the formula only 
+        ! works for unit chord airfoil
+        xc = PC(1,ic,is)/localChord
+        if (xc .lt. camberP) then
           PC(3,ic,is) = localChord*camberM/camberP**2._dp &
-            *(2._dp*camberP*PC(1,ic,is)-PC(1,ic,is)**2._dp)
+            *(2._dp*camberP*xc-xc**2._dp)
         else 
           PC(3,ic,is) = localChord*camberM/(1._dp-camberP)**2._dp &
-            *(1._dp-2._dp*camberP+2._dp*camberP*PC(1,ic,is)-PC(1,ic,is)**2._dp)
+            *(1._dp-2._dp*camberP+2._dp*camberP*xc-xc**2._dp)
         endif
       enddo
     enddo
