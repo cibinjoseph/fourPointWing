@@ -1,8 +1,8 @@
 program fourPointWing
   use libMath
   implicit none
-  integer, parameter :: nc = 10  ! No. of chordwise panels per semispan
-  integer, parameter :: ns = 25  ! No. of spanwise panels per semispan
+  integer, parameter :: nc = 11  ! No. of chordwise panels per semispan
+  integer, parameter :: ns = 15  ! No. of spanwise panels per semispan
 
   integer :: nx, ny, nyStart, nz  ! No. of grid points
   real(dp), dimension(3,nc+1,2*ns+1) :: PC
@@ -32,11 +32,11 @@ program fourPointWing
 
   ! Input four digit airfoil
   ! NACA MPXX
-  airfoil = "4415"
+  airfoil = "0015"
 
   ! Output selection
   ! [0]semispan [1]full-span
-  isFullspan = 0
+  isFullspan = 1
 
   ! ==== ===== ====
 
@@ -66,10 +66,12 @@ program fourPointWing
     ! X V 
 
     ! Input coordinates
-    P1=(/-0.21336_dp,0.0000_dp,0.0000_dp/)
-    P2=(/ 0.32004_dp,0.0000_dp,0.0000_dp/)
-    P3=(/ 0.22860_dp,1.0414_dp,0.0000_dp/)
-    P4=(/-0.15240_dp,1.0414_dp,0.0000_dp/)
+
+    ! TN-3304
+    !P1=(/-0.21336_dp,0.0000_dp,0.0000_dp/)
+    !P2=(/ 0.32004_dp,0.0000_dp,0.0000_dp/)
+    !P3=(/ 0.22860_dp,1.0414_dp,0.0000_dp/)
+    !P4=(/-0.15240_dp,1.0414_dp,0.0000_dp/)
 
     ! Rectangular wing
     !P1=(/0.0000_dp,0.0000_dp,0.0000_dp/)
